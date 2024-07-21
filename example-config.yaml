@@ -4,11 +4,11 @@ fallback_messages:
   - "Rise and shine! ☀️ Update us on your progress, your focus for today, and any challenges."
 
 slack:
-  channel: "#slack-test-playground"
+  channel: "#slack-test-playground" # replace this channel name with the one you want the messages posted to
 
-team_members:
-  - "@Cindy Cuevas"
-  - "@Firat Dogan"
-  - "@Fabricio Gabriel"
-  - "@Izabella Oliveira" 
-  - "@Sasmit Mandloi"
+team_members: # replace these user names with your teammates you want to request updates from
+  - "@Cindy"
+  - "@Firat"
+  - "@Fabricio"
+  - "@Izabella" 
+  - "@Sasmit"

@@ -1,12 +1,12 @@
 # Daily Team Sync
 
-DailyTeamSync is a Python application developed by [Rajiv Pant](https://rajiv.com/) that posts dynamic daily standup messages to Slack channels using OpenAI's GPT-3 for generating message variations. It includes motivational content to keep your team engaged and personalized follow-ups for team members. 
+DailyTeamSync is a Python application developed by [Rajiv Pant](https://rajiv.com/) that posts dynamic daily standup messages to Slack channels using language model AI for generating message variations. It includes motivational content and tasteful humor to keep your team engaged. It includes personalized follow-ups for team members.
 
 ## Features
-- Dynamic daily standup message generation using OpenAI's GPT-3
+- Dynamic daily standup message generation using a language model AI
 - Motivational quotes, jokes, or fun facts included in daily messages
 - Personalized follow-up messages for team members
-- Fallback to predefined messages if OpenAI API is unavailable
+- Fallback to predefined messages if the LLM API is unavailable
 
 ## Setup
 1. **Clone the repository:**
@@ -28,13 +28,13 @@ DailyTeamSync is a Python application developed by [Rajiv Pant](https://rajiv.co
 
 4. **Create and populate the `.env` file:**
    ```sh
-   cp .env.example .env
+   cp example.env .env
    # Update the .env file with your OpenAI API key and Slack bot token
    ```
 
 5. **Create and update `config.yaml`:**
    ```sh
-   cp config.yaml.example config.yaml
+   cp example-config.yaml config.yaml
    # Update config.yaml with your fallback messages and team members
    ```
 
@@ -48,7 +48,7 @@ DailyTeamSync is a Python application developed by [Rajiv Pant](https://rajiv.co
 - **config.yaml:** Contains fallback messages and Slack usernames of team members.
 
 ## Contributing
-Please read `CONTRIBUTING.md` for details on our code of conduct, and the process for submitting pull requests.
+Your code contributions are welcome. Please fork the repository and submit a pull request with your improvements.
 
 ## License
 This project is licensed under the MIT License - see the `LICENSE.md` file for details.
