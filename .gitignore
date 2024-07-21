@@ -1,0 +1,5 @@
+# Files and folders that contain each users' own data and should not be uploaded to GitHub
+.env
+# System files used for caching and related uses
+__pycache__
+.DS_Store

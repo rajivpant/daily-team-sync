@@ -1,0 +1,14 @@
+fallback_messages:
+  - "Good morning! 🌞 Please share your progress, today's tasks, and any hurdles you’re facing."
+  - "Hey team! 🎯 What did you achieve yesterday, what’s on your agenda today, and any blockers?"
+  - "Rise and shine! ☀️ Update us on your progress, your focus for today, and any challenges."
+
+slack:
+  channel: "#slack-test-playground"
+
+team_members:
+  - "@Cindy Cuevas"
+  - "@Firat Dogan"
+  - "@Fabricio Gabriel"
+  - "@Izabella Oliveira" 
+  - "@Sasmit Mandloi"
