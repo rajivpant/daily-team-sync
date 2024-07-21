@@ -1,7 +1,7 @@
 from openai import OpenAI
 import random
-from .config import OPENAI_API_KEY, FALLBACK_MESSAGES, MODEL_NAME, TEMPERATURE
-from .slack_client import USER_IDS
+from daily_team_sync.config import OPENAI_API_KEY, FALLBACK_MESSAGES, MODEL_NAME, TEMPERATURE
+from daily_team_sync.slack_client import USER_IDS
 
 client = OpenAI(api_key=OPENAI_API_KEY)
 

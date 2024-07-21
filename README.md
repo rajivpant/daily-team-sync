@@ -68,8 +68,8 @@ DailyTeamSync is a Python application developed by [Rajiv Pant](https://rajiv.co
      # Add more fallback messages...
 
    team_members:
-     - "@JohnDoe"
-     - "@JaneSmith"
+     - "JohnDoe"
+     - "JaneSmith"
      # Add more team members...
 
    slack:
@@ -92,16 +92,36 @@ To run DailyTeamSync automatically at a scheduled time, you can use cron (on Uni
    crontab -e
    ```
 
-2. Add a line to schedule the script. For example, to run it every weekday at 9:30 AM:
+2. Add a line to schedule the script. For example, to run it every weekday at 8:30 AM:
    ```
-   30 9 * * 1-5 /path/to/your/venv/bin/python /path/to/daily-team-sync/daily_team_sync/main.py
+   PYTHONPATH=/path/to/daily-team-sync
+   30 8 * * 1-5 /path/to/your/venv/bin/python /path/to/daily-team-sync/daily_team_sync/main.py >> /path/to/daily-team-sync.log 2>&1
    ```
+
+   Replace the following:
+   - `/path/to/daily-team-sync` with the full path to your project directory
+   - `/path/to/your/venv/bin/python` with the actual path to the Python interpreter in your virtual environment
+   - `/path/to/daily-team-sync/daily_team_sync/main.py` with the full path to the `main.py` file
+   - `/path/to/daily-team-sync.log` with the full path where you want to store the log file
+
+3. Make sure the script has the necessary permissions to run:
+   ```sh
+   chmod +x /path/to/daily-team-sync/daily_team_sync/main.py
+   ```
+
+4. If you're using a virtual environment, you may need to activate it in the cron job. You can do this by adding the activation command before running the script:
+   ```
+   PYTHONPATH=/path/to/daily-team-sync
+   30 8 * * 1-5 source /path/to/your/venv/bin/activate && python /path/to/daily-team-sync/daily_team_sync/main.py >> /path/to/daily-team-sync.log 2>&1
+   ```
+
+5. Ensure that all file paths in your configuration files (like .env and config.yaml) use absolute paths.
 
 ### Using Task Scheduler (Windows):
 
 1. Open Task Scheduler
 2. Click "Create Basic Task"
-3. Name the task and set the trigger (e.g., daily at 9:30 AM)
+3. Name the task and set the trigger (e.g., daily at 8:30 AM)
 4. For the action, choose "Start a program"
 5. Set the program/script to your Python executable in the virtual environment
 6. Set the arguments to the path of your main.py script
@@ -112,6 +132,29 @@ Remember to ensure that your machine is running and connected to the internet at
 ## Configuration
 - **.env:** Contains API keys and tokens.
 - **config.yaml:** Contains fallback messages, Slack usernames of team members, and the Slack channel name.
+
+## Troubleshooting
+
+If you encounter issues when running the script from cron, try the following:
+
+1. Ensure all paths (including those in .env and config.yaml) are absolute paths.
+2. Check the permissions of your script and configuration files.
+3. If using a virtual environment, make sure to activate it before running the script.
+4. Add logging to the script to help diagnose issues:
+
+   ```python
+   import logging
+   logging.basicConfig(filename='/path/to/daily-team-sync.log', level=logging.DEBUG)
+   ```
+
+   Add log messages throughout the script to track its progress.
+
+5. You can also redirect the script's output to a file in your cron job:
+   ```
+   30 8 * * 1-5 /path/to/your/venv/bin/python /path/to/daily-team-sync/daily_team_sync/main.py >> /path/to/daily-team-sync.log 2>&1
+   ```
+
+   This will capture both standard output and error messages in the log file.
 
 ## Contributing
 Your code contributions are welcome. Please fork the repository and submit a pull request with your improvements.

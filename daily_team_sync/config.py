@@ -2,15 +2,22 @@ import os
 import yaml
 from dotenv import load_dotenv
 
+# Get the directory of the current script
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the path to the project root directory
+project_root = os.path.dirname(current_dir)
+
 # Load environment variables from .env file
-load_dotenv()
+load_dotenv(os.path.join(project_root, '.env'))
 
 # Set API keys from environment variables
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 SLACK_BOT_TOKEN = os.getenv('SLACK_BOT_TOKEN')
 
 # Load configuration from config.yaml
-with open('config.yaml', 'r') as file:
+config_path = os.path.join(project_root, 'config.yaml')
+with open(config_path, 'r') as file:
     config = yaml.safe_load(file)
 
 FALLBACK_MESSAGES = config['fallback_messages']
@@ -18,7 +25,8 @@ TEAM_MEMBERS = config['team_members']
 SLACK_CHANNEL = config['slack']['channel']
 
 # Load engine settings from engines.yaml
-with open('engines.yaml', 'r') as file:
+engines_path = os.path.join(project_root, 'engines.yaml')
+with open(engines_path, 'r') as file:
     engine_config = yaml.safe_load(file)
 
 # Extract relevant engine and model settings

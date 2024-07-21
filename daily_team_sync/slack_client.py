@@ -1,6 +1,6 @@
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
-from .config import SLACK_BOT_TOKEN, SLACK_CHANNEL, TEAM_MEMBERS
+from daily_team_sync.config import SLACK_BOT_TOKEN, SLACK_CHANNEL, TEAM_MEMBERS
 
 client = WebClient(token=SLACK_BOT_TOKEN)
 
