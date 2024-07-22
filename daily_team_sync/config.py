@@ -22,7 +22,13 @@ with open(config_path, 'r') as file:
 
 FALLBACK_MESSAGES = config['fallback_messages']
 TEAM_MEMBERS = config['team_members']
-SLACK_CHANNEL = config['slack']['channel']
+SLACK_CHANNELS = config['slack']['channels']
+ACTIVE_CHANNEL = config['slack']['active_channel']
+SLACK_CHANNEL = SLACK_CHANNELS[ACTIVE_CHANNEL]
+
+# Load prompts
+DAILY_MESSAGE_PROMPT = config['prompts']['daily_message']
+FOLLOW_UP_MESSAGE_PROMPT = config['prompts']['follow_up_message']
 
 # Load engine settings from engines.yaml
 engines_path = os.path.join(project_root, 'engines.yaml')

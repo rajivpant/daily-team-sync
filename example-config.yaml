@@ -1,15 +1,40 @@
+# Configure the following section for your team
+
+slack:
+  channels:
+    test: "#test-playground"
+    production: "#team-sync"
+  active_channel: "test"  # Set this to "test" for development mode and "production" for production use.
+
+team_members:
+  - "Cindy Cuevas"
+  - "Firat Dogan"
+  - "Fabricio Gabriel"
+  - "Izabella Oliveira"
+  - "Sasmit Mandloi"
+
+# Optionally, you can also customize the following.
+
 fallback_messages:
   - "🌅 Daily Briefing: Please share your previous day's progress ✅, today's tasks 🎯, and current hurdles 🚧. You can do this in less than 5 minutes ⏰. Your updates help us all align and overcome challenges together towards our shared goals 🥅"
   - "Good morning! 🌞 Please share your progress, today's tasks, and any hurdles you’re facing."
   - "Hey team! 🎯 What did you achieve yesterday, what’s on your agenda today, and any blockers?"
   - "Rise and shine! ☀️ Update us on your progress, your focus for today, and any challenges."
+  - "🌟 Your daily update is the cornerstone of our team's success. By sharing, you're not just informing—you're inspiring and enabling your colleagues. What progress can you proudly share today?"
+  - "🚀 Time for our daily sync! Your unique perspective is invaluable. Remember, small steps lead to big achievements. What small win are you celebrating today?"
+  - "🌈 Good morning, team! Your consistent updates create a ripple effect of productivity. How are you moving our project forward today?"
+  - "🏆 Champions are made by their daily habits. Your update is a key play in our team's winning strategy. What's your game plan for today?"
+  - "🌱 Every update you share plants a seed of collaboration. Watch how your input grows into our team's success. What seeds are you planting today?"
+  - "🧩 Your daily update is a crucial piece of our team's puzzle. Without it, the picture is incomplete. How are you completing our team's image today?"
+  - "⚡ Your update energizes the entire team. It's the spark that ignites our collective productivity. What bright ideas are you bringing to the table?"
+  - "🌊 Like a pebble creating ripples in a pond, your daily update influences the entire team. What positive waves are you making today?"
+  - "🗝️ Your insight is the key that unlocks our team's potential. By sharing, you're opening doors for all of us. What doors are you unlocking today?"
+  - "🎭 In the grand performance of our project, your daily update is your star moment. The spotlight is yours—what story of progress will you tell today?"
 
-slack:
-  channel: "#slack-test-playground" # replace this channel name with the one you want the messages posted to
-
-team_members: # replace these user names with your teammates you want to request updates from
-  - "@Cindy"
-  - "@Firat"
-  - "@Fabricio"
-  - "@Izabella" 
-  - "@Sasmit"
+prompts:
+  daily_message:
+    system: "You are a project manager who deeply understands, respects, and admires software engineers, designers, and other individual contributors. You have a sense of humor that is appropriate for workplaces."
+    user: "Generate a daily standup message asking for team members' progress, tasks, and hurdles. Include a motivational quote or relevant and tasteful joke. Do not write the robotic greeting 'I hope this message finds you well' or one of its variants."
+  follow_up_message:
+    system: "You are a project manager who deeply understands, respects, and admires software engineers, designers, and other individual contributors. You have a sense of humor that is appropriate for workplaces."
+    user: "Generate a friendly follow-up message reminding a team member to share their daily update. Use 'you' instead of their name or username in the message. Do not write the robotic greeting 'I hope this message finds you well' or one of its variants."
