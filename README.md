@@ -1,6 +1,10 @@
 # Daily Team Sync
 
-DailyTeamSync is a Python application developed by [Rajiv Pant](https://rajiv.com/) that posts dynamic daily standup messages to Slack channels using language model AI for generating message variations. It includes motivational content and tasteful humor to keep your team engaged. It includes personalized follow-ups for team members.
+Daily Team Sync is a Python application developed by [Rajiv Pant](https://rajiv.com/) that posts dynamic daily standup messages to Slack channels using language model AI for generating message variations. It includes motivational content and tasteful humor to keep your team engaged. It includes personalized follow-ups for team members.
+
+## Blog Post
+Ever imagined an AI that doesn't try to think for you, but instead inspires you to think better? In my latest blog post, I introduce Daily Team Sync, an open-source tool that's flipping the script on AI in the workplace. Instead of replacing human communication, this AI acts as a digital facilitator, sparking more engaging and productive team discussions. It's not about AI generating our thoughts, but about AI prompting us to share our human insights more effectively. Curious how this could transform your team's daily standups and overall dynamics? Dive into the full post to explore how we're using AI to make work more human, not less. You might just find the future of team collaboration hidden in the spaces between AI prompts and human responses. Read the blog post announceing Daily Team Sync at
+[rajiv.com/blog/2024/07/21/facilitating-team-communication-by-ai-prompting-humans-introducing-daily-team-sync/](https://rajiv.com/blog/2024/07/21/facilitating-team-communication-by-ai-prompting-humans-introducing-daily-team-sync/)
 
 ## Features
 - Dynamic daily standup message generation using a language model AI
@@ -83,7 +87,7 @@ DailyTeamSync is a Python application developed by [Rajiv Pant](https://rajiv.co
 
 ## Scheduling Automatic Runs
 
-To run DailyTeamSync automatically at a scheduled time, you can use cron (on Unix-based systems) or Task Scheduler (on Windows).
+To run Daily Team Sync automatically at a scheduled time, you can use cron (on Unix-based systems) or Task Scheduler (on Windows).
 
 ### Using cron (Unix/Linux/macOS):
 
