@@ -7,9 +7,26 @@ engines:
         max_temperature: 1
         temperature: 0.75
     default_model: gpt-4o-mini
+  - name: anthropic
+    api_key_name: ANTHROPIC_API_KEY
+    models:
+      - name: claude-3-haiku-20240307
+        supports_system_role: true
+        max_temperature: 1
+        temperature: 0.75
+    default_model: claude-3-haiku-20240307
+  - name: google
+    api_key_name: GOOGLE_API_KEY
+    models:
+      - name: gemini-1.5-flash-latest
+        supports_system_role: false
+        max_temperature: 1
+        temperature: 0.75
+    default_model: gemini-1.5-flash-latest
 default: openai
 # These are the preset creativity temperature settings for the engine and model.
 temperature_settings:
   precise: 0.25
   balanced: 0.50
   creative: 0.75
+  

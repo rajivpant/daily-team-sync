@@ -1,4 +1,7 @@
+anthropic
+google-generativeai
+litellm
 openai
-slack_sdk
 python-dotenv
 pyyaml
+slack_sdk

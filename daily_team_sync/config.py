@@ -1,6 +1,7 @@
 import os
 import yaml
 from dotenv import load_dotenv
+import random
 
 # Get the directory of the current script
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -12,7 +13,6 @@ project_root = os.path.dirname(current_dir)
 load_dotenv(os.path.join(project_root, '.env'))
 
 # Set API keys from environment variables
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 SLACK_BOT_TOKEN = os.getenv('SLACK_BOT_TOKEN')
 
 # Load configuration from config.yaml
@@ -35,8 +35,15 @@ engines_path = os.path.join(project_root, 'engines.yaml')
 with open(engines_path, 'r') as file:
     engine_config = yaml.safe_load(file)
 
+def get_random_engine_and_model():
+    engines = engine_config['engines']
+    engine = random.choice(engines)
+    model = random.choice(engine['models'])
+    return engine['name'], model['name'], model['temperature'], model['supports_system_role']
+
 # Extract relevant engine and model settings
-engine = next(e for e in engine_config['engines'] if e['name'] == 'openai')
-default_model = next(m for m in engine['models'] if m['name'] == 'gpt-4o-mini')
-MODEL_NAME = default_model['name']
-TEMPERATURE = default_model['temperature']
+ENGINE_NAME, MODEL_NAME, TEMPERATURE, SUPPORTS_SYSTEM_ROLE = get_random_engine_and_model()
+
+# Set max tokens for messages
+MAX_TOKENS_DAILY = 150
+MAX_TOKENS_FOLLOW_UP = 100

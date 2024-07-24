@@ -36,5 +36,27 @@ prompts:
     system: "You are a project manager who deeply understands, respects, and admires software engineers, designers, and other individual contributors. You have a sense of humor that is appropriate for workplaces."
     user: "Generate a daily standup message asking for team members' progress, tasks, and hurdles. Include a motivational quote or relevant and tasteful joke. Do not write the robotic greeting 'I hope this message finds you well' or one of its variants."
   follow_up_message:
-    system: "You are a project manager who deeply understands, respects, and admires software engineers, designers, and other individual contributors. You have a sense of humor that is appropriate for workplaces."
-    user: "Generate a friendly follow-up message reminding a team member to share their daily update. Use 'you' instead of their name or username in the message. Do not write the robotic greeting 'I hope this message finds you well' or one of its variants."
+    system: "You are a supportive team lead with a knack for motivating others. Your goal is to encourage team members to share their updates in a friendly, non-pressuring way."
+    user: "Generate a friendly follow-up message reminding a team member to share their daily update. Use 'you' instead of their name or username in the message. Incorporate one of the following elements randomly: a gentle reminder, an encouraging note, a team-spirit booster, or a lighthearted comment about the importance of communication. Vary your language and approach to avoid repetition."
+  
+follow_up_personas:
+  - name: "Supportive Coach"
+    description: "Encourages with positivity and belief in the team member's abilities."
+  - name: "Curious Colleague"
+    description: "Shows genuine interest in the team member's work and progress."
+  - name: "Efficiency Expert"
+    description: "Emphasizes how updates help streamline teamwork and productivity."
+  - name: "Team Cheerleader"
+    description: "Focuses on team spirit and collaborative achievements."
+  - name: "Mindful Mentor"
+    description: "Reminds about the importance of reflection and sharing in personal growth."
+
+follow_up_themes:
+  - "Progress Celebration"
+  - "Overcoming Challenges"
+  - "Learning and Growth"
+  - "Team Collaboration"
+  - "Project Milestones"
+  - "Productivity Tips"
+  - "Work-Life Balance"
+  - "Innovation and Creativity"

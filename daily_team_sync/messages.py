@@ -1,45 +1,55 @@
-from openai import OpenAI
 import random
-from daily_team_sync.config import OPENAI_API_KEY, FALLBACK_MESSAGES, MODEL_NAME, TEMPERATURE, DAILY_MESSAGE_PROMPT, FOLLOW_UP_MESSAGE_PROMPT
+from litellm import completion
+from daily_team_sync.config import (
+    FALLBACK_MESSAGES, ENGINE_NAME, MODEL_NAME, TEMPERATURE,
+    DAILY_MESSAGE_PROMPT, FOLLOW_UP_MESSAGE_PROMPT,
+    MAX_TOKENS_DAILY, MAX_TOKENS_FOLLOW_UP, SUPPORTS_SYSTEM_ROLE,
+    config
+)
 from daily_team_sync.slack_client import USER_IDS
 
-client = OpenAI(api_key=OPENAI_API_KEY)
-
-def generate_daily_message():
+def generate_message(prompt, max_tokens):
     try:
-        response = client.chat.completions.create(model=MODEL_NAME,
-        messages=[
-            {"role": "system", "content": DAILY_MESSAGE_PROMPT['system']},
-            {"role": "user", "content": DAILY_MESSAGE_PROMPT['user']}
-        ],
-        max_tokens=150,
-        temperature=TEMPERATURE)
-        message = response.choices[0].message.content.strip()
-        return message
+        if SUPPORTS_SYSTEM_ROLE:
+            messages = [
+                {"role": "system", "content": prompt['system']},
+                {"role": "user", "content": prompt['user']}
+            ]
+        else:
+            messages = [
+                {"role": "user", "content": prompt['system']},
+                {"role": "user", "content": prompt['user']}
+            ]
+
+        llm_response = completion(
+            model=MODEL_NAME,
+            messages=messages,
+            max_tokens=max_tokens,
+            temperature=TEMPERATURE
+        )
+        response = llm_response.get('choices', [{}])[0].get('message', {}).get('content')
+        return response.strip() if response else None
     except Exception as e:
-        print(f"OpenAI API error: {e}")
+        print(f"{ENGINE_NAME} API error: {e}")
         return random.choice(FALLBACK_MESSAGES)
 
-def generate_follow_up_message(team_member):
-    try:
-        user_id = USER_IDS.get(team_member)
-        if not user_id:
-            print(f"Could not find User ID for {team_member}")
-            return None
+def generate_daily_message():
+    return generate_message(DAILY_MESSAGE_PROMPT, MAX_TOKENS_DAILY)
 
-        response = client.chat.completions.create(model=MODEL_NAME,
-        messages=[
-            {"role": "system", "content": FOLLOW_UP_MESSAGE_PROMPT['system']},
-            {"role": "user", "content": FOLLOW_UP_MESSAGE_PROMPT['user']}
-        ],
-        max_tokens=100,
-        temperature=TEMPERATURE)
-        message = response.choices[0].message.content.strip()
-        formatted_message = f"<@{user_id}> {message}"
-        return formatted_message
-    except Exception as e:
-        print(f"OpenAI API error: {e}")
-        if user_id:
-            return f"<@{user_id}> Just a reminder to post your progress and plans for today."
-        else:
-            return f"{team_member}, just a reminder to post your progress and plans for today."
+def generate_follow_up_message(team_member):
+    user_id = USER_IDS.get(team_member)
+    if not user_id:
+        print(f"Could not find User ID for {team_member}")
+        return None
+
+    # Select a random persona and theme
+    persona = random.choice(config['follow_up_personas'])
+    theme = random.choice(config['follow_up_themes'])
+
+    # Modify the follow-up prompt with the selected persona and theme
+    modified_prompt = FOLLOW_UP_MESSAGE_PROMPT.copy()
+    modified_prompt['system'] += f" Adopt the persona of a {persona['name']}: {persona['description']}"
+    modified_prompt['user'] += f" Focus on the theme of {theme}."
+
+    message = generate_message(modified_prompt, MAX_TOKENS_FOLLOW_UP)
+    return f"<@{user_id}> {message}" if message else None
