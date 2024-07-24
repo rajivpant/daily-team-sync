@@ -1,5 +1,7 @@
 import random
+import logging
 from litellm import completion
+import langcodes
 from daily_team_sync.config import (
     FALLBACK_MESSAGES, ENGINE_NAME, MODEL_NAME, TEMPERATURE,
     DAILY_MESSAGE_PROMPT, FOLLOW_UP_MESSAGE_PROMPT,
@@ -8,7 +10,10 @@ from daily_team_sync.config import (
 )
 from daily_team_sync.slack_client import USER_IDS
 
-def generate_message(prompt, max_tokens):
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+def generate_message(prompt, max_tokens, language=None):
     try:
         if SUPPORTS_SYSTEM_ROLE:
             messages = [
@@ -17,10 +22,14 @@ def generate_message(prompt, max_tokens):
             ]
         else:
             messages = [
-                {"role": "user", "content": prompt['system']},
-                {"role": "user", "content": prompt['user']}
+                {"role": "user", "content": prompt['system'] + "\n" + prompt['user']}
             ]
 
+        if language:
+            lang_name = langcodes.Language.get(language).display_name()
+            messages.append({"role": "user", "content": f"Please generate the response in {lang_name}."})
+
+        logger.info(f"Generating message using {ENGINE_NAME} - {MODEL_NAME}")
         llm_response = completion(
             model=MODEL_NAME,
             messages=messages,
@@ -30,17 +39,36 @@ def generate_message(prompt, max_tokens):
         response = llm_response.get('choices', [{}])[0].get('message', {}).get('content')
         return response.strip() if response else None
     except Exception as e:
-        print(f"{ENGINE_NAME} API error: {e}")
+        logger.error(f"{ENGINE_NAME} API error: {e}")
         return random.choice(FALLBACK_MESSAGES)
 
 def generate_daily_message():
     return generate_message(DAILY_MESSAGE_PROMPT, MAX_TOKENS_DAILY)
 
-def generate_follow_up_message(team_member):
-    user_id = USER_IDS.get(team_member)
+def get_team_member_languages(team_member_name):
+    for member in config['team_members']:
+        if member['name'] == team_member_name:
+            return member.get('languages', ['en'])
+    return ['en']  # Default to English if not specified
+
+def generate_follow_up_message(team_member_name):
+    user_id = USER_IDS.get(team_member_name)
     if not user_id:
-        print(f"Could not find User ID for {team_member}")
+        logger.warning(f"Could not find User ID for {team_member_name}")
         return None
+
+    languages = get_team_member_languages(team_member_name)
+    selected_language = random.choice(languages)
+
+    persona = random.choice(config['follow_up_personas'])
+    theme = random.choice(config['follow_up_themes'])
+
+    modified_prompt = FOLLOW_UP_MESSAGE_PROMPT.copy()
+    modified_prompt['system'] += f" Adopt the persona of a {persona['name']}: {persona['description']}"
+    modified_prompt['user'] += f" Focus on the theme of {theme}. Remember, do not use any greeting, name, or @mention - start the message directly."
+
+    message = generate_message(modified_prompt, MAX_TOKENS_FOLLOW_UP, language=selected_language)
+    return f"<@{user_id}> {message}" if message else None
 
     # Select a random persona and theme
     persona = random.choice(config['follow_up_personas'])
@@ -49,7 +77,7 @@ def generate_follow_up_message(team_member):
     # Modify the follow-up prompt with the selected persona and theme
     modified_prompt = FOLLOW_UP_MESSAGE_PROMPT.copy()
     modified_prompt['system'] += f" Adopt the persona of a {persona['name']}: {persona['description']}"
-    modified_prompt['user'] += f" Focus on the theme of {theme}."
+    modified_prompt['user'] += f" Focus on the theme of {theme}. Remember, do not use any greeting or name - start the message directly."
 
     message = generate_message(modified_prompt, MAX_TOKENS_FOLLOW_UP)
     return f"<@{user_id}> {message}" if message else None

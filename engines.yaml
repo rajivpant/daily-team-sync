@@ -1,5 +1,6 @@
 engines:
   - name: openai
+    enabled: true
     api_key_name: OPENAI_API_KEY
     models:
       - name: gpt-4o-mini
@@ -8,6 +9,7 @@ engines:
         temperature: 0.75
     default_model: gpt-4o-mini
   - name: anthropic
+    enabled: true
     api_key_name: ANTHROPIC_API_KEY
     models:
       - name: claude-3-haiku-20240307
@@ -16,6 +18,7 @@ engines:
         temperature: 0.75
     default_model: claude-3-haiku-20240307
   - name: google
+    enabled: false  # Set this to false to disable Google LLM
     api_key_name: GOOGLE_API_KEY
     models:
       - name: gemini-1.5-flash-latest

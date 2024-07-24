@@ -7,7 +7,7 @@ sys.path.insert(0, project_root)
 
 from daily_team_sync.messages import generate_daily_message, generate_follow_up_message
 from daily_team_sync.slack_client import post_to_slack, post_thread_message
-from daily_team_sync.config import TEAM_MEMBERS
+from daily_team_sync.config import config
 
 def main():
     # Generate and post the daily message
@@ -16,8 +16,8 @@ def main():
     
     # Generate and post follow-up messages for each team member
     if daily_message_ts:
-        for member in TEAM_MEMBERS:
-            follow_up_message = generate_follow_up_message(member)
+        for member in config['team_members']:
+            follow_up_message = generate_follow_up_message(member['name'])
             if follow_up_message:
                 post_thread_message(daily_message_ts, follow_up_message)
 

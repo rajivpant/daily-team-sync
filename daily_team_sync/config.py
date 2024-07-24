@@ -36,8 +36,11 @@ with open(engines_path, 'r') as file:
     engine_config = yaml.safe_load(file)
 
 def get_random_engine_and_model():
-    engines = engine_config['engines']
-    engine = random.choice(engines)
+    enabled_engines = [engine for engine in engine_config['engines'] if engine.get('enabled', True)]
+    if not enabled_engines:
+        raise ValueError("No enabled engines found in configuration")
+    
+    engine = random.choice(enabled_engines)
     model = random.choice(engine['models'])
     return engine['name'], model['name'], model['temperature'], model['supports_system_role']
 

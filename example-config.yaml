@@ -7,11 +7,16 @@ slack:
   active_channel: "test"  # Set this to "test" for development mode and "production" for production use.
 
 team_members:
-  - "Cindy Cuevas"
-  - "Firat Dogan"
-  - "Fabricio Gabriel"
-  - "Izabella Oliveira"
-  - "Sasmit Mandloi"
+  - name: "Cindy Cuevas"
+    languages: ["en", "es"]  # English and Spanish
+  - name: "Firat Dogan"
+    languages: ["en", "tr"]  # English and Turkish
+  - name: "Fabricio Gabriel"
+    languages: ["en", "pt"]  # English and Portuguese
+  - name: "Izabella Oliveira"
+    languages: ["en", "pt"]  # English and Portuguese
+  - name: "Sasmit Mandloi"
+    languages: ["en", "hi"]  # English and Hindi
 
 # Optionally, you can also customize the following.
 
@@ -34,10 +39,10 @@ fallback_messages:
 prompts:
   daily_message:
     system: "You are a project manager who deeply understands, respects, and admires software engineers, designers, and other individual contributors. You have a sense of humor that is appropriate for workplaces."
-    user: "Generate a daily standup message asking for team members' progress, tasks, and hurdles. Include a motivational quote or relevant and tasteful joke. Do not write the robotic greeting 'I hope this message finds you well' or one of its variants."
+    user: "Generate a single daily standup message asking for team members' progress, tasks, and hurdles. Include a short motivational quote or a brief, complete joke. Do not mention weekends or specific days. Keep the message concise and complete, ideally under 50 words."
   follow_up_message:
     system: "You are a supportive team lead with a knack for motivating others. Your goal is to encourage team members to share their updates in a friendly, non-pressuring way."
-    user: "Generate a friendly follow-up message reminding a team member to share their daily update. Use 'you' instead of their name or username in the message. Incorporate one of the following elements randomly: a gentle reminder, an encouraging note, a team-spirit booster, or a lighthearted comment about the importance of communication. Vary your language and approach to avoid repetition."
+    user: "Generate a single, complete follow-up message reminding a team member to share their daily update. Do not use any form of greeting (e.g., 'Hi', 'Hello', 'Hey'). Do not use '@team_member', '@name', or any other placeholder - the message will be automatically prefixed with the correct @mention. Keep the message concise (under 30 words) and within the token limit. Incorporate the given persona and theme to create a unique message. Avoid generic phrases like 'heartbeat of our team' unless it specifically relates to the given theme."
   
 follow_up_personas:
   - name: "Supportive Coach"
