@@ -40,24 +40,19 @@ engines:
     default_model: claude-3-sonnet-20240229
 
   - name: google
-    api_key_name: GOOGLE_API_KEY
+    api_key_name: GEMINI_API_KEY
     models:
-      - name: gemini-1.5-pro
-        supports_system_role: false
-        max_temperature: 1
-        temperature: 0.75
+      - name: gemini/gemini-1.5-pro-latest
         tier: premium
-      - name: gemini-1.0-pro
         supports_system_role: false
         max_temperature: 1
         temperature: 0.75
-        tier: standard
-      - name: gemini-1.0-ultra
-        supports_system_role: false
-        max_temperature: 1
-        temperature: 0.75
+      - name: gemini/gemini-1.5-flash-latest
         tier: budget
-    default_model: gemini-1.5-pro
+        supports_system_role: false
+        max_temperature: 1
+        temperature: 0.75
+    default_model: gemini/gemini-1.5-pro-latest
 
 # Global settings (can be overridden in the product or user's configuration)
 settings:

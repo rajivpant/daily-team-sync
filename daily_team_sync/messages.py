@@ -6,7 +6,7 @@ from daily_team_sync.config import (
     FALLBACK_MESSAGES, ENGINE_NAME, MODEL_NAME, TEMPERATURE,
     DAILY_MESSAGE_PROMPT, FOLLOW_UP_MESSAGE_PROMPT,
     MAX_TOKENS_DAILY, MAX_TOKENS_FOLLOW_UP, SUPPORTS_SYSTEM_ROLE,
-    config
+    config, SKIP_SLACK_POSTING
 )
 from daily_team_sync.slack_client import USER_IDS
 
@@ -53,7 +53,7 @@ def get_team_member_languages(team_member_name):
 
 def generate_follow_up_message(team_member_name):
     user_id = USER_IDS.get(team_member_name)
-    if not user_id:
+    if not user_id and not SKIP_SLACK_POSTING:
         logger.warning(f"Could not find User ID for {team_member_name}")
         return None
 
@@ -68,4 +68,8 @@ def generate_follow_up_message(team_member_name):
     modified_prompt['user'] += f" Focus on the theme of {theme}. Remember, do not use any greeting, name, or @mention - start the message directly."
 
     message = generate_message(modified_prompt, MAX_TOKENS_FOLLOW_UP, language=selected_language)
-    return f"<@{user_id}> {message}" if message else None
+    
+    if SKIP_SLACK_POSTING:
+        return f"Follow-up for {team_member_name}: {message}" if message else None
+    else:
+        return f"<@{user_id}> {message}" if message else None

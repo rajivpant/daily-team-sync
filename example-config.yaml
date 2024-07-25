@@ -2,8 +2,8 @@
 
 slack:
   channels:
-    test: "#test-playground"
-    production: "#team-sync"
+    test: "#your-test-channel"
+    production: "#your-production-channel"
   active_channel: "test"  # Set this to "test" for development mode and "production" for production use.
 
 team_members:
@@ -20,16 +20,13 @@ team_members:
 
 # Override global settings from engines.yaml if needed
 settings:
-  all_models_enabled: false
-  enabled_providers:
-    - openai # Comment out this line if the user doesn't have an OpenAI API key or doesn't want to use it 
-    - anthropic # Comment out this line if the user doesn't have an Anthropic API key or doesn't want to use it 
-    #- google  # Comment out this line if the user doesn't have a Google API key or doesn't want to use it 
+  skip_slack_posting: false  # Set to true for testing without posting to Slack
+  all_models_enabled: false  # Set to false to use only specific tiers
   enabled_tiers:
-    #- premium # Comment out this line to disable
-    - standard # Comment out this line to disable
-    - budget # Comment out this line to disable
-  random_selection: true
+    - premium
+    - standard
+    - budget
+  random_selection: true  # If true, randomly selects from enabled models; if false, uses the first available model
 
 # Optionally, you can also customize the following.
 
