@@ -35,8 +35,23 @@ engines_path = os.path.join(project_root, 'engines.yaml')
 with open(engines_path, 'r') as file:
     engine_config = yaml.safe_load(file)
 
-def get_random_engine_and_model():
-    enabled_engines = [engine for engine in engine_config['engines'] if engine.get('enabled', True)]
+def get_enabled_engines_and_models():
+    enabled_engines = []
+    enabled_providers = config['settings'].get('enabled_providers', [])
+    enabled_tiers = config['settings'].get('enabled_tiers', [])
+    
+    for engine in engine_config['engines']:
+        if engine['name'] in enabled_providers and engine['api_key_name'] in os.environ:
+            enabled_models = [model for model in engine['models'] if model['tier'] in enabled_tiers]
+            if enabled_models:
+                enabled_engines.append({
+                    'name': engine['name'],
+                    'models': enabled_models
+                })
+    return enabled_engines
+
+def select_engine_and_model():
+    enabled_engines = get_enabled_engines_and_models()
     if not enabled_engines:
         raise ValueError("No enabled engines found in configuration")
     
@@ -44,9 +59,14 @@ def get_random_engine_and_model():
     model = random.choice(engine['models'])
     return engine['name'], model['name'], model['temperature'], model['supports_system_role']
 
-# Extract relevant engine and model settings
-ENGINE_NAME, MODEL_NAME, TEMPERATURE, SUPPORTS_SYSTEM_ROLE = get_random_engine_and_model()
+# Select engine and model once at the start
+ENGINE_NAME, MODEL_NAME, TEMPERATURE, SUPPORTS_SYSTEM_ROLE = select_engine_and_model()
 
 # Set max tokens for messages
 MAX_TOKENS_DAILY = 150
 MAX_TOKENS_FOLLOW_UP = 100
+
+# Export engine_config
+__all__ = ['config', 'engine_config', 'ENGINE_NAME', 'MODEL_NAME', 'TEMPERATURE', 'SUPPORTS_SYSTEM_ROLE', 
+           'FALLBACK_MESSAGES', 'TEAM_MEMBERS', 'SLACK_CHANNEL', 'DAILY_MESSAGE_PROMPT', 
+           'FOLLOW_UP_MESSAGE_PROMPT', 'MAX_TOKENS_DAILY', 'MAX_TOKENS_FOLLOW_UP']

@@ -18,6 +18,19 @@ team_members:
   - name: "Sasmit Mandloi"
     languages: ["en", "hi"]  # English and Hindi
 
+# Override global settings from engines.yaml if needed
+settings:
+  all_models_enabled: false
+  enabled_providers:
+    - openai # Comment out this line if the user doesn't have an OpenAI API key or doesn't want to use it 
+    - anthropic # Comment out this line if the user doesn't have an Anthropic API key or doesn't want to use it 
+    #- google  # Comment out this line if the user doesn't have a Google API key or doesn't want to use it 
+  enabled_tiers:
+    #- premium # Comment out this line to disable
+    - standard # Comment out this line to disable
+    - budget # Comment out this line to disable
+  random_selection: true
+
 # Optionally, you can also customize the following.
 
 fallback_messages:
@@ -38,11 +51,11 @@ fallback_messages:
 
 prompts:
   daily_message:
-    system: "You are a project manager who deeply understands, respects, and admires software engineers, designers, and other individual contributors. You have a sense of humor that is appropriate for workplaces."
-    user: "Generate a single daily standup message asking for team members' progress, tasks, and hurdles. Include a short motivational quote or a brief, complete joke. Do not mention weekends or specific days. Keep the message concise and complete, ideally under 50 words."
+    system: "You are a project manager who deeply understands, respects, and admires software engineers, designers, and other individual contributors. You have a sense of humor that is appropriate for workplaces. Your task is to generate a daily standup message for a team. The message should be direct and ready to be sent as-is, without any meta-description or word count."
+    user: "Generate a single daily standup message asking for team members' progress, tasks, and hurdles. Include a short motivational quote or a brief, complete joke. Do not mention weekends or specific days. Keep the message concise and complete, ideally under 100 words. Do not include any text describing the message or its word count. The message should be ready to be sent directly to the team."
   follow_up_message:
-    system: "You are a supportive team lead with a knack for motivating others. Your goal is to encourage team members to share their updates in a friendly, non-pressuring way."
-    user: "Generate a single, complete follow-up message reminding a team member to share their daily update. Do not use any form of greeting (e.g., 'Hi', 'Hello', 'Hey'). Do not use '@team_member', '@name', or any other placeholder - the message will be automatically prefixed with the correct @mention. Keep the message concise (under 30 words) and within the token limit. Incorporate the given persona and theme to create a unique message. Avoid generic phrases like 'heartbeat of our team' unless it specifically relates to the given theme."
+    system: "You are a supportive team lead with a knack for motivating others. Your goal is to encourage team members to share their updates in a friendly, non-pressuring way. Your message should be direct and ready to be sent as-is, without any meta-description or word count."
+    user: "Generate a single, complete follow-up message reminding a team member to share their daily update. Do not use any form of greeting (e.g., 'Hi', 'Hello', 'Hey'). Do not use '@team_member', '@name', or any other placeholder - the message will be automatically prefixed with the correct @mention. Keep the message concise (under 50 words) and within the token limit. Incorporate the given persona and theme to create a unique message. Avoid generic phrases like 'heartbeat of our team' unless it specifically relates to the given theme. The message should be ready to be sent directly to the team member."  
   
 follow_up_personas:
   - name: "Supportive Coach"

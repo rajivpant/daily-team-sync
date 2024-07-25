@@ -69,15 +69,3 @@ def generate_follow_up_message(team_member_name):
 
     message = generate_message(modified_prompt, MAX_TOKENS_FOLLOW_UP, language=selected_language)
     return f"<@{user_id}> {message}" if message else None
-
-    # Select a random persona and theme
-    persona = random.choice(config['follow_up_personas'])
-    theme = random.choice(config['follow_up_themes'])
-
-    # Modify the follow-up prompt with the selected persona and theme
-    modified_prompt = FOLLOW_UP_MESSAGE_PROMPT.copy()
-    modified_prompt['system'] += f" Adopt the persona of a {persona['name']}: {persona['description']}"
-    modified_prompt['user'] += f" Focus on the theme of {theme}. Remember, do not use any greeting or name - start the message directly."
-
-    message = generate_message(modified_prompt, MAX_TOKENS_FOLLOW_UP)
-    return f"<@{user_id}> {message}" if message else None

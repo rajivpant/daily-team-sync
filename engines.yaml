@@ -1,35 +1,74 @@
 engines:
   - name: openai
-    enabled: true
     api_key_name: OPENAI_API_KEY
     models:
-      - name: gpt-4o-mini
+      - name: gpt-4-turbo
         supports_system_role: true
         max_temperature: 1
         temperature: 0.75
-    default_model: gpt-4o-mini
+        tier: premium
+      - name: gpt-4
+        supports_system_role: true
+        max_temperature: 1
+        temperature: 0.75
+        tier: standard
+      - name: gpt-3.5-turbo
+        supports_system_role: true
+        max_temperature: 1
+        temperature: 0.75
+        tier: budget
+    default_model: gpt-4-turbo
+
   - name: anthropic
-    enabled: true
     api_key_name: ANTHROPIC_API_KEY
     models:
+      - name: claude-3-opus-20240229
+        supports_system_role: true
+        max_temperature: 1
+        temperature: 0.75
+        tier: premium
+      - name: claude-3-sonnet-20240229
+        supports_system_role: true
+        max_temperature: 1
+        temperature: 0.75
+        tier: standard
       - name: claude-3-haiku-20240307
         supports_system_role: true
         max_temperature: 1
         temperature: 0.75
-    default_model: claude-3-haiku-20240307
+        tier: budget
+    default_model: claude-3-sonnet-20240229
+
   - name: google
-    enabled: false  # Set this to false to disable Google LLM
     api_key_name: GOOGLE_API_KEY
     models:
-      - name: gemini-1.5-flash-latest
+      - name: gemini-1.5-pro
         supports_system_role: false
         max_temperature: 1
         temperature: 0.75
-    default_model: gemini-1.5-flash-latest
-default: openai
-# These are the preset creativity temperature settings for the engine and model.
-temperature_settings:
+        tier: premium
+      - name: gemini-1.0-pro
+        supports_system_role: false
+        max_temperature: 1
+        temperature: 0.75
+        tier: standard
+      - name: gemini-1.0-ultra
+        supports_system_role: false
+        max_temperature: 1
+        temperature: 0.75
+        tier: budget
+    default_model: gemini-1.5-pro
+
+# Global settings (can be overridden in the product or user's configuration)
+settings:
+  all_models_enabled: true
+  enabled_tiers:
+    - premium
+    - standard
+    - budget
+  default_engine: anthropic
+  random_selection: false
+  # default temperature settings
   precise: 0.25
   balanced: 0.50
   creative: 0.75
-  
